@@ -10,6 +10,14 @@
         <option value="$PROJECT_DIR$/bungeecord/pom.xml.ft" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/bukkit/pom.xml.ft" />
+        <option value="$PROJECT_DIR$/bungeecord/pom.xml.ft" />
+        <option value="$PROJECT_DIR$/sponge/pom.xml.ft" />
+        <option value="$PROJECT_DIR$/velocity/pom.xml.ft" />
+      </set>
+    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="temurin-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

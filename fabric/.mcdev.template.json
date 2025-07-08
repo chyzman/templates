@@ -58,30 +58,6 @@
       }
     },
     {
-      "name": "SPLIT_SOURCES",
-      "type": "boolean",
-      "default": true,
-      "visible": {
-        "dependsOn": ["VERSIONS"],
-        "condition": "$VERSIONS.minecraftVersion.compareTo($mcver.MC1_18) >= 0"
-      }
-    },
-    {
-      "name": "CLIENT_SOURCE_SET",
-      "type": "string",
-      "visible": false,
-      "derives": {
-        "parents": ["VERSIONS", "SPLIT_SOURCES"],
-        "select": [
-          {
-            "condition": "$SPLIT_SOURCES && $VERSIONS.minecraftVersion.compareTo($mcver.MC1_18) >= 0",
-            "value": "client"
-          }
-        ],
-        "default": "main"
-      }
-    },
-    {
       "name": "MOD_ID",
       "type": "string",
       "validator": "[a-z][a-z0-9-_]{1,63}",
@@ -102,6 +78,17 @@
       "inheritFrom": "PROJECT_NAME"
     },
     {
+      "name": "DESCRIPTION",
+      "type": "string",
+      "default": ""
+    },
+    {
+      "name": "AUTHORS",
+      "type": "inline_string_list",
+      "default": "",
+      "validator": "^\"([^\"]*)\"(?:,\\s*\"([^\"]*)\")*$"
+    },
+    {
       "name": "MAIN_CLASS",
       "type": "class_fqn",
       "derives": {
@@ -112,27 +99,6 @@
     {
       "name": "LICENSE",
       "type": "license"
-    },
-    {
-      "label": "creator.ui.optional_settings.label",
-      "collapsible": true,
-      "groupProperties": [
-        {
-          "name": "DESCRIPTION",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "name": "AUTHORS",
-          "type": "inline_string_list",
-          "default": ""
-        },
-        {
-          "name": "WEBSITE",
-          "type": "string",
-          "default": ""
-        }
-      ]
     },
     {
       "name": "JAVA_VERSION",
