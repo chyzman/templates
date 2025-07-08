@@ -11,14 +11,18 @@
       "name": "LANGUAGE",
       "type": "string",
       "options": [
-        "Java",
-        "Kotlin"
+        "Java"
       ],
       "default": 0
     },
     {
       "name": "VERSIONS",
       "type": "fabric_versions"
+    },
+    {
+      "name": "JAR_MC_VERSION",
+      "type": "string",
+      "inheritFrom": "VERSIONS.minecraftVersion"
     },
     {
       "name": "KOTLIN_LOADER_VERSION",
@@ -73,22 +77,6 @@
       }
     },
     {
-      "name": "MOD_NAME",
-      "type": "string",
-      "inheritFrom": "PROJECT_NAME"
-    },
-    {
-      "name": "DESCRIPTION",
-      "type": "string",
-      "default": ""
-    },
-    {
-      "name": "AUTHORS",
-      "type": "inline_string_list",
-      "default": "",
-      "validator": "^\"([^\"]*)\"(?:,\\s*\"([^\"]*)\")*$"
-    },
-    {
       "name": "MAIN_CLASS",
       "type": "class_fqn",
       "derives": {
@@ -99,6 +87,28 @@
     {
       "name": "LICENSE",
       "type": "license"
+    },
+    {
+      "label": "creator.ui.optional_settings.label",
+      "collapsible": true,
+      "groupProperties": [
+        {
+          "name": "MOD_NAME",
+          "type": "string",
+          "inheritFrom": "PROJECT_NAME"
+        },
+        {
+          "name": "DESCRIPTION",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "name": "AUTHORS",
+          "type": "inline_string_list",
+          "default": "",
+          "validator": "^\"([^\"]*)\"(?:,\\s*\"([^\"]*)\")*$"
+        }
+      ]
     },
     {
       "name": "JAVA_VERSION",
