@@ -1,8 +1,7 @@
-# Done to increase the memory available to gradle.
-org.gradle.jvmargs=-Xmx1G
+org.gradle.jvmargs=-Xmx2G
+
 
 # Fabric Properties
-	# check these on https://modmuss50.me/fabric.html
 	minecraft_version=${VERSIONS.minecraftVersion}
 #if (!${VERSIONS.useOfficialMappings})
 	yarn_mappings=${VERSIONS.yarn}
@@ -12,13 +11,15 @@ org.gradle.jvmargs=-Xmx1G
 	kotlin_loader_version=${KOTLIN_LOADER_VERSION}
 #end
 
+
 # Mod Properties
 	mod_version = ${BUILD_COORDS.version}
+	jar_mc_version = ${BILD_COORDS.mcVersion}
 	maven_group = ${BUILD_COORDS.groupId}
 	archives_base_name = ${BUILD_COORDS.artifactId}
 
+
 #if (${VERSIONS.useFabricApi})
 # Dependencies
-	# check this on https://modmuss50.me/fabric.html
 	fabric_version=${VERSIONS.fabricApi}
 #end

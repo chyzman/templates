@@ -6,7 +6,7 @@
 
   "name": "${MOD_NAME}",
   "description": "${DESCRIPTION}",
-  "authors": [],
+  "authors": [${AUTHORS}],
   "contact": {},
 
   "license": "${LICENSE.id}",

@@ -1,10 +1,16 @@
 package ${MAIN_CLASS.packageName};
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 
 public class ${MAIN_CLASS.className} implements ModInitializer {
+    public static final String MODID = "${MOD_ID}";
 
     @Override
     public void onInitialize() {
+    }
+
+    public static Identifier id(String path) {
+        return Identifier.of(MODID, path);
     }
 }
