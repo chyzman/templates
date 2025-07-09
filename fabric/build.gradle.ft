@@ -10,19 +10,6 @@ base {
     archivesName = project.archives_base_name
 }
 
-#if ($SPLIT_SOURCES && $VERSIONS.minecraftVersion.compareTo($mcver.MC1_18) >= 0)
-loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "${MOD_ID}" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
-}
-#end
-
 #if ($USE_DATAGEN)
 fabricApi {
     configureDataGeneration {

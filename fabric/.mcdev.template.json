@@ -21,8 +21,7 @@
     },
     {
       "name": "JAR_MC_VERSION",
-      "type": "string",
-      "inheritFrom": "VERSIONS.minecraftVersion"
+      "type": "string"
     },
     {
       "name": "KOTLIN_LOADER_VERSION",
