@@ -7,9 +7,6 @@ org.gradle.jvmargs=-Xmx2G
 	yarn_mappings=${VERSIONS.yarn}
 #end
 	loader_version=${VERSIONS.loader}
-#if (${LANGUAGE} == 'Kotlin')
-	kotlin_loader_version=${KOTLIN_LOADER_VERSION}
-#end
 
 
 # Mod Properties

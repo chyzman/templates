@@ -45,8 +45,11 @@ loom {
         named("client") {
             client()
             name("[${project.name}] Client")
-#if (${DEV_USERNAME} != "" || ${DEV_UUID} != "")
-            programArgs("#if (${DEV_USERNAME} != "")--username ${DEV_USERNAME}#end#if (${DEV_UUID} != "") --uuid ${DEV_UUID}#end")
+#if (${DEV_USERNAME} != "")
+    programArgs "--username", "${DEV_USERNAME}"
+#end
+#if (${DEV_UUID} != "")
+            programArgs "--uuid", "${DEV_UUID}"
 #end
         }
 #end
@@ -65,8 +68,11 @@ loom {
             vmArg("-Dfabric-api.datagen.modid=${project.name}")
 
             runDir("build/datagen")
-#if (${DEV_USERNAME} != "" || ${DEV_UUID} != "")
-            programArgs("#if (${DEV_USERNAME} != "")--username ${DEV_USERNAME}#end#if (${DEV_UUID} != "") --uuid ${DEV_UUID}#end")
+#if (${DEV_USERNAME} != "")
+            programArgs "--username", "${DEV_USERNAME}"
+#end
+#if (${DEV_UUID} != "")
+            programArgs "--uuid", "${DEV_UUID}"
 #end
         }
 #end

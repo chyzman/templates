@@ -37,6 +37,13 @@
       }
     },
     {
+      "label": "Use Access Widener:",
+      "name": "USE_ACCESS_WIDENER",
+      "type": "boolean",
+      "remember": "fabric.USE_ACCESS_WIDENER",
+      "default": true
+    },
+    {
       "name": "MOD_ID",
       "type": "string",
       "validator": "[a-z][a-z0-9-_]{1,63}",
@@ -80,10 +87,11 @@
         {
           "name": "AUTHORS",
           "type": "inline_string_list",
-          "default": "",
-          "validator": "^\"([^\"]*)\"(?:,\\s*\"([^\"]*)\")*$"
+          "default": ""
         },
         {
+          "label": "Dev Username:",
+          "warning": "Must be a valid Minecraft username. (or blank)",
           "name": "DEV_USERNAME",
           "type": "string",
           "default": "",
@@ -91,10 +99,12 @@
           "remember": "fabric.DEV_USERNAME"
         },
         {
+          "label": "Dev UUID:",
+          "warning": "Must be a valid UUID. (or blank)",
           "name": "DEV_UUID",
           "type": "string",
           "default": "",
-          "validator": "^(?:[0-9a-fA-F]{32}|)$",
+          "validator": "^(?:[0-9a-fA-F]{32}|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|)$",
           "remember": "fabric.DEV_UUID"
         }
       ]
@@ -126,23 +136,11 @@
     },
     {
       "template": "build.gradle.ft",
-      "destination": "build.gradle",
-      "notcondition": "$LANGUAGE == 'Java'"
+      "destination": "build.gradle"
     },
     {
       "template": "settings.gradle.ft",
-      "destination": "settings.gradle",
-      "notcondition": "$LANGUAGE == 'Java'"
-    },
-    {
-      "template": "build.gradle.kts.ft",
-      "destination": "build.gradle.kts",
-      "condition": "$LANGUAGE == 'Kotlin'"
-    },
-    {
-      "template": "settings.gradle.kts.ft",
-      "destination": "settings.gradle.kts",
-      "condition": "$LANGUAGE == 'Kotlin'"
+      "destination": "settings.gradle"
     },
     {
       "template": "gradle.properties.ft",
@@ -165,54 +163,29 @@
       "condition": "$USE_MIXINS"
     },
     {
-      "template": "mixins.json.ft",
-      "destination": "src/client/resources/${MOD_ID}.client.mixins.json",
-      "condition": "$USE_MIXINS && $VERSIONS.minecraftVersion.compareTo($mcver.MC1_18) >= 0",
-      "properties": {
-        "CLIENT": true
-      }
-    },
-    {
       "template": "Initializer.java.ft",
       "destination": "src/main/java/${MAIN_CLASS.path}.java",
-      "notcondition": "$LANGUAGE == 'Java'",
       "openInEditor": true
     },
     {
       "template": "ClientInitializer.java.ft",
-      "destination": "src/${CLIENT_SOURCE_SET}/java/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}Client.java",
-      "notcondition": "$LANGUAGE == 'Java' && $MOD_ENVIRONMENT != 'server'",
+      "destination": "src/main/java/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}Client.java",
       "condition": "$MOD_ENVIRONMENT != 'server'",
       "openInEditor": true
     },
     {
-      "template": "Initializer.kt.ft",
-      "destination": "src/main/kotlin/${MAIN_CLASS.path}.kt",
-      "condition": "$LANGUAGE == 'Kotlin'",
-      "openInEditor": true
-    },
-    {
-      "template": "ClientInitializer.kt.ft",
-      "destination": "src/${CLIENT_SOURCE_SET}/kotlin/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}Client.kt",
-      "condition": "$LANGUAGE == 'Kotlin' && $MOD_ENVIRONMENT != 'server'",
-      "openInEditor": true
-    },
-    {
       "template": "DataGenerator.java.ft",
-      "destination": "src/${CLIENT_SOURCE_SET}/java/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}DataGenerator.java",
-      "notcondition": "$LANGUAGE == 'Java' && $USE_DATAGEN",
+      "destination": "src/main/java/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}DataGenerator.java",
       "condition": "$USE_DATAGEN",
-      "openInEditor": true
-    },
-    {
-      "template": "DataGenerator.kt.ft",
-      "destination": "src/${CLIENT_SOURCE_SET}/kotlin/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}DataGenerator.kt",
-      "condition": "$LANGUAGE == 'Kotlin' && $USE_DATAGEN",
       "openInEditor": true
     },
     {
       "template": "../licenses/${LICENSE.id}.txt.ft",
       "destination": "LICENSE.txt"
+    },
+    {
+      "template": "AccessWidener.accesswidener.ft",
+      "destination": "src/main/resources/${MOD_ID}.accesswidener"
     }
   ],
   "finalizers": [
