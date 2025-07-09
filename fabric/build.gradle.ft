@@ -36,6 +36,82 @@ dependencies {
 #end
 }
 
+loom {
+    var accessWidener = file("src/main/resources/${project.name}.accesswidener")
+    if (accessWidener.exists()) accessWidenerPath = accessWidener
+
+    runs {
+#if (${MOD_ENVIRONMENT} != 'server')
+        named("client") {
+            client()
+            name("[${project.name}] Client")
+#if (${DEV_USERNAME} != "" || ${DEV_UUID} != "")
+            programArgs("#if (${DEV_USERNAME} != "")--username ${DEV_USERNAME}#end#if (${DEV_UUID} != "") --uuid ${DEV_UUID}#end")
+#end
+        }
+#end
+#if (${MOD_ENVIRONMENT} != 'client')
+        named("server") {
+            server()
+            name("[${project.name}] Server")
+        }
+#end
+#if (${USE_DATAGEN})
+        datagen {
+            client()
+            name("[${project.name}] DataGen")
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${project.file("src/generated/resources")}")
+            vmArg("-Dfabric-api.datagen.modid=${project.name}")
+
+            runDir("build/datagen")
+#if (${DEV_USERNAME} != "" || ${DEV_UUID} != "")
+            programArgs("#if (${DEV_USERNAME} != "")--username ${DEV_USERNAME}#end#if (${DEV_UUID} != "") --uuid ${DEV_UUID}#end")
+#end
+        }
+#end
+
+        configureEach {
+            ideConfigGenerated true
+            vmArg "-XX:+AllowEnhancedClassRedefinition"
+        }
+#if (${USE_MIXINS} || ${DEV_UUID} != "")
+
+            project.afterEvaluate {
+                def results = project.configurations.compileClasspath.getIncoming().artifactView { config ->
+                    config.withVariantReselection()
+                    config.componentFilter { id ->
+                        if (id instanceof ModuleComponentIdentifier) {
+                            return (((ModuleComponentIdentifier) id).getModuleIdentifier().name == "sponge-mixin")
+                        }
+                        return false
+                    }
+                }.files.files.toList()
+
+                def javaAgentFile = null
+
+                if (results.isEmpty()) {
+                    project.logger.log(LogLevel.WARN, "No 'sponge-mixin' dependency found on compileClasspath. Skipping javaagent for all run configurations.")
+                } else {
+                    javaAgentFile = results[0]
+                    if (results.size() > 1) {
+                        project.logger.log(LogLevel.WARN, "More than one 'sponge-mixin' dependency found on compileClasspath. Picking the first one found: ${javaAgentFile.name}. Verify your dependencies.")
+                    } else {
+                        project.logger.lifecycle("Found 'sponge-mixin' dependency on compileClasspath: ${javaAgentFile.name}")
+                    }
+                }
+
+                if (javaAgentFile != null) {
+                    loom.runConfigs.configureEach { runConfig ->
+                        project.logger.lifecycle("Applying -javaagent to run config: ${runConfig.name}")
+                        runConfig.vmArg "-javaagent:\"${(javaAgentFile.getPath())}\""
+                    }
+                }
+            }
+#end
+    }
+}
+
 processResources {
     inputs.property "version", project.mod_version
     inputs.property "minecraft_version", project.minecraft_version

@@ -14,7 +14,7 @@ org.gradle.jvmargs=-Xmx2G
 
 # Mod Properties
 	mod_version = ${BUILD_COORDS.version}
-	jar_mc_version = ${JAR_MC_VERSION}
+	jar_mc_version = ${VERSIONS.minecraftVersion}
 	maven_group = ${BUILD_COORDS.groupId}
 	archives_base_name = ${BUILD_COORDS.artifactId}
 

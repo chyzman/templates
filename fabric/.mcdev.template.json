@@ -8,32 +8,8 @@
       "order": 10
     },
     {
-      "name": "LANGUAGE",
-      "type": "string",
-      "options": [
-        "Java"
-      ],
-      "default": 0
-    },
-    {
       "name": "VERSIONS",
       "type": "fabric_versions"
-    },
-    {
-      "name": "JAR_MC_VERSION",
-      "type": "string"
-    },
-    {
-      "name": "KOTLIN_LOADER_VERSION",
-      "type": "maven_artifact_version",
-      "parameters": {
-        "sourceUrl": "https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/maven-metadata.xml",
-        "rawVersionFilter": "$version.contains('+kotlin.')"
-      },
-      "visible": {
-        "dependsOn": "LANGUAGE",
-        "condition": "$LANGUAGE == 'Kotlin'"
-      }
     },
     {
       "name": "MOD_ENVIRONMENT",
@@ -106,6 +82,20 @@
           "type": "inline_string_list",
           "default": "",
           "validator": "^\"([^\"]*)\"(?:,\\s*\"([^\"]*)\")*$"
+        },
+        {
+          "name": "DEV_USERNAME",
+          "type": "string",
+          "default": "",
+          "validator": "^(?:[a-zA-Z0-9_]{3,16}|)$",
+          "remember": "fabric.DEV_USERNAME"
+        },
+        {
+          "name": "DEV_UUID",
+          "type": "string",
+          "default": "",
+          "validator": "^(?:[0-9a-fA-F]{32}|)$",
+          "remember": "fabric.DEV_UUID"
         }
       ]
     },
@@ -137,12 +127,12 @@
     {
       "template": "build.gradle.ft",
       "destination": "build.gradle",
-      "condition": "$LANGUAGE == 'Java'"
+      "notcondition": "$LANGUAGE == 'Java'"
     },
     {
       "template": "settings.gradle.ft",
       "destination": "settings.gradle",
-      "condition": "$LANGUAGE == 'Java'"
+      "notcondition": "$LANGUAGE == 'Java'"
     },
     {
       "template": "build.gradle.kts.ft",
@@ -177,7 +167,7 @@
     {
       "template": "mixins.json.ft",
       "destination": "src/client/resources/${MOD_ID}.client.mixins.json",
-      "condition": "$USE_MIXINS && $SPLIT_SOURCES && $VERSIONS.minecraftVersion.compareTo($mcver.MC1_18) >= 0",
+      "condition": "$USE_MIXINS && $VERSIONS.minecraftVersion.compareTo($mcver.MC1_18) >= 0",
       "properties": {
         "CLIENT": true
       }
@@ -185,13 +175,14 @@
     {
       "template": "Initializer.java.ft",
       "destination": "src/main/java/${MAIN_CLASS.path}.java",
-      "condition": "$LANGUAGE == 'Java'",
+      "notcondition": "$LANGUAGE == 'Java'",
       "openInEditor": true
     },
     {
       "template": "ClientInitializer.java.ft",
       "destination": "src/${CLIENT_SOURCE_SET}/java/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}Client.java",
-      "condition": "$LANGUAGE == 'Java' && $MOD_ENVIRONMENT != 'server'",
+      "notcondition": "$LANGUAGE == 'Java' && $MOD_ENVIRONMENT != 'server'",
+      "condition": "$MOD_ENVIRONMENT != 'server'",
       "openInEditor": true
     },
     {
@@ -209,7 +200,8 @@
     {
       "template": "DataGenerator.java.ft",
       "destination": "src/${CLIENT_SOURCE_SET}/java/${MAIN_CLASS.packagePath}/client/${MAIN_CLASS.className}DataGenerator.java",
-      "condition": "$LANGUAGE == 'Java' && $USE_DATAGEN",
+      "notcondition": "$LANGUAGE == 'Java' && $USE_DATAGEN",
+      "condition": "$USE_DATAGEN",
       "openInEditor": true
     },
     {
